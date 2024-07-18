@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta lang="en" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Task Manager</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="overlay"></div>
+    <nav>
+      <img src="taskninja.png" alt="taskninja" />
+      <h1>Task Ninja</h1>
+    </nav>
+    <div class="form-container">
+      <form action="" id="search-form">
+        <img
+          src="search-icon.png"
+          alt="searchTask"
+          id="search-icon"
+          class="form-item" />
+        <input
+          type="text"
+          id="searchbar"
+          placeholder="search Task"
+          class="form-item" />
+        <button id="search-task-btn" class="form-item">search</button>
+        <input
+          type="text"
+          id="add-task-bar"
+          placeholder="Add Task"
+          class="form-item" />
+        <button id="add-task-btn" class="form-item">Add Task</button>
+      </form>
+    </div>
+    <div class="container">
+      <table id="task-table">
+        <thead>
+          <tr>
+            <th id="id">ID</th>
+            <th id="task">Task</th>
+            <th id="status">Status</th>
+            <th id="delete">Delete</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <script src="index.js" async></script>
+  </body>
+</html>
