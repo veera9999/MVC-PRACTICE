@@ -47,9 +47,11 @@ const API = (() => {
 const Model = (() => {
   class State {
     #tasks;
+    #filteredTasks;
 
     constructor() {
       this.#tasks = [];
+      this.#filteredTasks = [];
     }
     get tasks() {
       return this.#tasks;
@@ -57,6 +59,26 @@ const Model = (() => {
     set tasks(newTasks) {
       this.#tasks = newTasks;
     }
+    get filteredTasks() {
+      return this.#filteredTasks;
+    }
+    set filteredTasks(newFilteredTasks) {
+      this.#filteredTasks = newFilteredTasks;
+    }
+
+    searchTasks = (searchTerm) => {
+      if (!searchTerm.trim()) {
+        this.#filteredTasks = this.#tasks;
+        console.log("I am not Here");
+      } else {
+        this.#filteredTasks = this.#tasks.filter((taskObj) =>
+          taskObj.task.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        console.log("I am Here");
+      }
+      console.log(this.#filteredTasks);
+      return this.#filteredTasks;
+    };
   }
   return {
     State,
@@ -98,6 +120,7 @@ const View = (() => {
           <td>${element.task}</td>
           <td>${element.status}</td>
           <td><button class="task-del-btn">delete</button></td>
+          <td><button class="task-update-btn">update</button></td>
           </tr>`;
       tasksTemp += taskTempItem;
     });
@@ -123,12 +146,74 @@ const View = (() => {
 const Controller = ((view, model) => {
   const state = new model.State();
   const init = () => {
-    model.getTasks().then((tasksData) => {
-      state.tasks = tasksData;
-      view.renderTasks(state.tasks);
-      console.log("Init Started");
+    viewTasks();
+    addTaskEventHandler();
+    deleteTaskEventHandler();
+    searchTaskEventHandler();
+  };
+  const viewTasks = () => {
+    model
+      .getTasks()
+      .then((tasksData) => {
+        state.tasks = tasksData;
+        view.renderTasks(state.tasks);
+      })
+      .catch((error) => {
+        console.log("Failed to fetch Tasks", error);
+      });
+  };
+
+  const deleteTaskBtnPressed = (taskId) => {
+    model
+      .deleteTask(taskId)
+      .then((data) => {
+        console.log(data);
+        viewTasks();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const searchTaskEventHandler = () => {
+    view.searchTaskBtnEl.addEventListener("click", (event) => {
+      event.preventDefault();
+      const searchInputVal = view.getSearchInputValue();
+      const filteredTasks = state.searchTasks(searchInputVal);
+      view.renderTasks(filteredTasks);
     });
   };
+
+  const deleteTaskEventHandler = (deleteTask) => {
+    view.tableBodyEl.addEventListener("click", (event) => {
+      if (event.target.classList.contains("task-del-btn")) {
+        const taskId = event.target.closest("tr").firstElementChild.textContent;
+        deleteTaskBtnPressed(taskId);
+      }
+    });
+  };
+
+  const addTaskEventHandler = () => {
+    view.addTaskBtnEl.addEventListener("click", (event) => {
+      event.preventDefault();
+      const newTaskVal = view.getAddTaskInputValue().trim();
+      if (newTaskVal === "") return;
+      const newTask = {
+        task: newTaskVal,
+        status: "pending",
+      };
+      model
+        .createTask(newTask)
+        .then((data) => {
+          console.log(data);
+          view.clearAddTaskInputValue();
+          viewTasks();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  };
+
   return {
     init,
   };

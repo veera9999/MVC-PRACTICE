@@ -1,36 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+}
 body,
 html {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  background: url("taskninja.png") no-repeat center center fixed;
-  background-size: cover;
-  height: 100%;
-  overflow: auto;
-  z-index: -1;
-  color: floralwhite;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(
-    7,
-    0,
-    0,
-    0.8
-  ); /* Change the color and transparency as needed */
-  z-index: 0;
 }
 
 nav,
 .form-container,
 .container {
   position: relative;
-  z-index: 1;
 }
 
 nav {
@@ -94,24 +79,34 @@ nav img {
   background-color: floralwhite;
 }
 
-#search-task-btn {
+/* #search-task-btn {
   background-color: rgb(212, 7, 7);
   border: black 2px solid;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   color: floralwhite;
-}
+} */
 
-#add-task-btn {
+#add-task-btn,
+#search-task-btn,
+tr .task-del-btn,
+tr .task-update-btn {
   background-color: rgb(212, 7, 7);
   color: floralwhite;
   border: black 2px solid;
   padding: 0.5rem 1rem;
   border-radius: 4px;
 }
-
+#search-task-btn,
+.task-del-btn,
+.task-update-btn,
+#add-task-btn:hover {
+  cursor: pointer;
+}
 .container table {
-  width: 100%;
+  width: 50%;
+  position: absolute;
+  box-sizing: border-box;
   margin: 3rem 2rem;
 }
 
@@ -121,18 +116,7 @@ td,
 tr {
   border: 2px solid rgb(212, 7, 7);
   border-collapse: collapse;
-}
-
-.pagination {
-  display: flex;
-}
-
-#prev-btn,
-#next-btn {
-  padding: 0.5rem 2rem;
-  border: 2px black solid;
-  background-color: rgb(212, 7, 7);
-  color: floralwhite;
-  margin: 2rem 1rem;
-  border-radius: 3px;
+  vertical-align: center;
+  text-align: left;
+  padding: 1rem 1.5rem;
 }
